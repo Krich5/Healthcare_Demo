@@ -1,524 +1,3 @@
-
-
-Invite team members
-build me a quick ERM webpage for healthcare to be able to also pull an API against is to list some patient reconds.
-
-this will be used to demo what a health care system would want in an AI bot answering calls, checking for the patient by their phone number, verifiying themselfs with their DOB and then listing out their up comming appt... it would be also awesome for them to be able to schedule an appt and we use some dummy data to show when the next appoitment is and then "schedule" it to mock data or something... I do have a MOCK API website we can post/get from too
-
-https://689f84f46e38a02c58168326.mockapi.io/HealthcareDEMO
-
-ill host this on github or something so i can pull up a CRM interface and dispaly this info etc
-
-Mar 22
-
-Reading frontend design skill
-Reading frontend design skill
-Before I start building, let me nail down a couple of things so the demo hits exactly right.
-
-Let me just pick the best defaults for a compelling demo and start building — I'll go with the full search + drill-in experience, a slot picker that POSTs to MockAPI, and a clean clinical look that feels legit for a healthcare pitch.
-
-
-Created a file, read a file
-Created a file, read a file
-Here's your MedCRM demo file. It's a single self-contained HTML file — just drop it on GitHub Pages and it's live.
-
-What's built in:
-
-Patient Lookup flow -- Enter a phone number (try 3855950504 for Jane Doe, or 3866314619 for your record), hit Look Up. It pulls live from your MockAPI and finds the match.
-
-DOB verification -- Enter the DOB to unlock the full record (e.g. 05/26/1988). Wrong DOB gives a security fail message. This mirrors exactly how an AI bot would gate the info.
-
-AI call transcript panel -- The chat panel at the top simulates the AI agent's conversation in real time as you type and search. Good for demos to show the IVR parallel.
-
-Full patient record -- Click "Open Full Record" to get the drill-in view with tabs: Appointments, Patient Info, and Visit History placeholder.
-
-Schedule Appointment -- Opens a modal with department picker, date selector, and a slot grid (some slots intentionally marked as "taken"). Confirms by PUTting back to your MockAPI.
-
-All Patients + Appointments views -- Sidebar links pull all records and render them as sortable tables.
-
-To host on GitHub Pages:
-
-Create a repo, drop the HTML file in as index.html
-Go to Settings > Pages > deploy from main branch
-Done — shareable URL in seconds
-Want me to add anything like a "simulate incoming call" button that auto-fills a random patient, or a dark mode toggle for demo flexibility?
-
-Healthcare crm
-Code · HTML 
-Q: What view should the CRM open on?
-A: Patient search / lookup dashboard
-
-Q: For scheduling, how should the 'book appointment' flow work?
-A: Simple date/time picker that POSTs to MockAPI
-
-Q: What's the overall visual vibe for the demo?
-A: Dark tech (sleek dark UI, like a control room)
-
-Mar 22
-Let me rebuild this with your specs -- dark control room aesthetic, search-first landing, and the full scheduling flow.
-
-
-Created 2 files, viewed a file, ran a command
-Created 2 files, viewed a file, ran a command
-Here's your rebuilt MedCRM -- dark control room aesthetic with IBM Plex Mono throughout, cyan glow accents, and that grid-overlay background that makes it feel like a real ops dashboard.
-
-What's in it:
-
-The UI opens on the Patient Lookup view with a live AI call transcript panel that updates in real-time as you type and search. Hit Demo Fill in the top right of the form to auto-populate Jane Doe's phone and DOB so you can show the full verified flow instantly during a demo.
-
-The full demo flow to show a client:
-
-Click "Demo Fill" -- phone and DOB auto-populate
-Hit "Run Lookup" -- pulls live from your MockAPI, transcript updates with the AI dialogue
-Verified card unlocks with current appointment details
-Hit "Open Record" for the full detail view with tabs
-Hit "+ Schedule Appointment" -- pick department, date, and time slot (some slots show as taken), POST fires to MockAPI, transcript updates with AI confirmation
-Sidebar views: All Patients pulls the full registry with stats, Appointments shows the sorted schedule across all patients.
-
-To deploy on GitHub Pages: drop as index.html in any repo root, enable Pages under Settings, and you're live in about 60 seconds. No dependencies, no build step -- pure single file.
-
-Healthcare crm
-Code · HTML 
-I dont think the CRM needs to show the "AI Agent" I will handle that.. this is just designed to mimic like a ERM, a EPIC/ or meditech
-
-Mar 22
-Good call. Let me strip out the AI transcript panel and call indicators, and make it feel like a proper clinical EHR system.
-
-
-Ran a command, created a file, read a file
-Ran a command, created a file, read a file
-This version is a clean EHR -- no AI branding, no call indicators, nothing that doesn't belong in a clinical records system.
-
-What it looks and feels like now:
-
-The sidebar reads like an Epic/Meditech navigation with sections for Patient, Schedule, and Clinical. The logged-in user shows as "Dr. Reynolds / Attending Physician" at the bottom. The topbar shows the current date and a subtle "System Online" badge.
-
-Feels clinical throughout:
-
-Patients get proper MRN numbers (MRN-00001 format)
-The demographics strip shows DOB, age, phone, department, status -- just like Epic's patient header bar
-The full record has 5 tabs: Appointments, Demographics, Vitals, Medications, Clinical Notes (last 3 are placeholder stubs that look real)
-Appointments view shows both upcoming and a fake past visit history (two hardcoded completed visits) so it looks like a real chart
-Scheduling modal now includes a Provider dropdown alongside department and slot picker
-Identity verification uses clean clinical alert language ("Identity verification failed. Contact front desk for manual override.")
-The only hint it's a demo is the "Load Demo Patient" button in the search form header -- easy to click during a live presentation without fumbling with phone numbers.
-
-Healthcare crm
-Code · HTML 
-1774225495654_image.png
-I have also a "Knowledge base" for this bot to use.. lets sync everything up to use the same thing. I think the play is to change this document here:
-
-🏥 Greenfield Medical Center — Knowledge Base
-📍 General Information
-* Hospital Name: Greenfield Medical Center
-* Address: 4521 Wellness Blvd, Springfield, IL 62701
-* Main Phone: (217) 555-0100
-* Website: __www.greenfieldmedical.com__
-* Hours: Monday – Friday, 7:00 AM – 6:00 PM | Saturday 8:00 AM – 2:00 PM | Sunday: Closed
-* Emergency Room: Open 24/7
-👨‍⚕️ Departments & Doctors
-DepartmentDoctorSpecialtyCardiologyDr. Elena TorresHeart & CardiovascularOrthopedicsDr. James PatelBones, Joints & Sports InjuriesPediatricsDr. Sofia NguyenChildren's Health (0–18)OB/GYNDr. Rachel KimWomen's Health & PregnancyGeneral MedicineDr. Michael BrooksPrimary Care & CheckupsNeurologyDr. Alan CarterBrain & Nervous SystemDermatologyDr. Lisa MonroeSkin, Hair & NailsPsychiatryDr. David OseiMental Health & Therapy
-📅 Appointment Types
-TypeDurationNotesNew Patient Visit60 minRequires insurance info & IDFollow-up Visit30 minMust have existing patient recordAnnual Physical45 minRecommended once a yearSpecialist Consultation45 minMay require referralTelehealth Visit20–30 minAvailable Mon–Fri onlyUrgent Care VisitWalk-inNo appointment needed
-🕐 Available Appointment Slots (Sample)
-Dr. Elena Torres – Cardiology
-* Monday: 9:00 AM, 11:00 AM, 2:00 PM
-* Wednesday: 10:00 AM, 3:00 PM
-* Friday: 8:00 AM, 1:00 PM
-Dr. James Patel – Orthopedics
-* Tuesday: 9:00 AM, 12:00 PM
-* Thursday: 10:00 AM, 2:00 PM, 4:00 PM
-Dr. Sofia Nguyen – Pediatrics
-* Monday: 8:00 AM, 10:00 AM, 3:00 PM
-* Wednesday: 9:00 AM, 11:00 AM
-* Friday: 1:00 PM, 3:00 PM
-Dr. Rachel Kim – OB/GYN
-* Tuesday: 8:00 AM, 10:00 AM
-* Thursday: 9:00 AM, 1:00 PM, 3:00 PM
-Dr. Michael Brooks – General Medicine
-* Monday–Friday: 8:00 AM, 9:00 AM, 10:00 AM, 11:00 AM, 2:00 PM, 3:00 PM
-Dr. Alan Carter – Neurology
-* Wednesday: 9:00 AM, 11:00 AM
-* Friday: 10:00 AM, 2:00 PM
-Dr. Lisa Monroe – Dermatology
-* Tuesday: 9:00 AM, 11:00 AM, 2:00 PM
-* Thursday: 8:00 AM, 12:00 PM
-Dr. David Osei – Psychiatry
-* Monday: 10:00 AM, 1:00 PM
-* Wednesday: 9:00 AM, 3:00 PM
-* Friday: 11:00 AM
-📋 Patient Information Required for Booking
-* Full Name
-* Date of Birth
-* Phone Number
-* Insurance Provider & Member ID
-* Reason for Visit
-* Preferred Doctor (optional)
-* Preferred Date & Time
-🏥 Insurance Accepted
-* BlueCross BlueShield
-* Aetna
-* UnitedHealthcare
-* Cigna
-* Humana
-* Medicare
-* Medicaid
-* Self-Pay (payment plans available)
-❓ Common FAQs
-Q: How early should I arrive for my appointment?A: Please arrive 15 minutes early to complete paperwork.
-Q: Can I cancel or reschedule?A: Yes, please cancel or reschedule at least 24 hours in advance to avoid a $25 no-show fee.
-Q: Do I need a referral to see a specialist?A: Some insurance plans require a referral. We recommend checking with your provider beforehand.
-Q: What should I bring to my appointment?A: Photo ID, insurance card, list of current medications, and any relevant medical records.
-Q: Is parking available?A: Yes, free parking is available in Lot A and Lot B. Valet parking is available at the main entrance for $5.
-🚨 Emergency & Urgent Info
-* Emergency: Call 911 or go to the ER (open 24/7)
-* Nurse Hotline: (217) 555-0199 — available 24/7
-* Poison Control: 1-800-222-1222
-* Crisis/Mental Health Line: (217) 555-0150
-
-This was my openening greeting but think it might be able to be improved:
-
-"Thank you for calling Greenfield Medical Center. I can help with upcoming appointments, visit instructions, or connect you with a care coordinator."
-
-This is also my bots current "Instructions"
-
-Identity Role Definition: You are a friendly and professional assistant for managing doctor appointments. Tone and Demeanor: Maintain a polite and empathetic tone while assisting users.
-Context Validate the caller using their phone number ' {{ PatientNumber }} '
-Look up a patient by their phone number using patient_lookup
-Verify patient identity by confirming their **date of birth** before reading back any appointment or personal information
-Task
-Lookup an patient by their phone number - using \[Lookup_Patient]\
-Ask for the patient date of birth (DOB) if you do not have the patient name from \[Lookup_PAtient]\ ,then ask for their name.
-Tell patient of their upcomming appoint and offer to text them the details using \[send_sms\], ask if you want to send it to the number on file Completion: • Summarize actions performed (e.g., “Your appointment has been confirmed for [date/time].”). • Ask if the user needs additional help before ending.
-Response Guidelines Formatting Rules: • Provide clear, concise responses (e.g., “Dr. Smith is available at 10 AM. Would you like to book this slot?”). • Use bullet points or short paragraphs for clarity. Language Style: Keep a polite and professional tone.
-Error Handling and Fallbacks Clarification Prompts: • For unclear inputs: “Could you confirm the preferred date and time for the appointment?” • For cancellations: “Could you provide the patient’s name and DOB to look up the appointment?” Fallback Responses: • If an action fails: “I couldn’t complete your request. Would you like to try again or contact support?” • If no appointments are found during lookup: “There are no appointments on record. Could you confirm the details?”
-User Defined Guardrails • Limit conversations to booking or canceling doctor appointments. • Do not provide medical advice or address unrelated queries.
-Examples Example 1: Booking an Appointment User: "I need to book an appointment for Friday at 10 AM." AI Agent: "Let me check availability for Friday at 10 AM... The doctor is available at that time. May I have your name, DOB, and reason for the visit?" User: "John Doe, 01/01/1990, general check-up." AI Agent: "Your appointment is confirmed for Friday at 10 AM. Is there anything else I can help you with?" Example 2: Canceling an Appointment User: "I want to cancel my appointment." AI Agent: "Please provide the patient’s name and DOB to look up the appointment." User: "John Doe, 01/01/1990." AI Agent: "Your appointment on Friday at 10 AM has been canceled. Is there anything else I can assist you with?"
-=-----=
-
-Just looking to taylor this to a demo of how Webex Contact Center AI agent can off load paitent scheduling appoting, checking, booking etc...
-
-this is an "Autonomus" Bot
-
-Show more
-Mar 22
-Great context. Let me look at everything holistically and give you polished, ready-to-paste versions of all three pieces -- Knowledge Base, Opening Greeting, and Bot Instructions -- all consistent with each other, Greenfield Medical, and your MockAPI data structure.
-
-KNOWLEDGE BASE (replace your current doc with this)
-
-🏥 Greenfield Medical Center — AI Agent Knowledge Base 📍 Greenfield Medical Center | 4521 Wellness Blvd, Springfield, IL 62701 Main: (217) 555-0100 | www.greenfieldmedical.com Hours: Mon–Fri 7:00 AM–6:00 PM | Sat 8:00 AM–2:00 PM | Sun: Closed | ER: 24/7
-
-PATIENT IDENTITY & VERIFICATION
-
-The agent must always verify a caller's identity before reading back any appointment or personal information.
-
-Step 1 — Phone lookup: The caller's inbound phone number is passed automatically as {{ PatientNumber }}. Use Lookup_Patient to retrieve the record.
-
-Step 2 — DOB confirmation: Always ask the caller to confirm their date of birth before proceeding. Do not read back any personal data until DOB is confirmed.
-
-Step 3 — If no match: Politely inform the caller their number is not on file and offer to transfer to the front desk.
-
-APPOINTMENT MANAGEMENT
-
-The agent can perform three appointment tasks:
-
-Check upcoming appointment — Use Lookup_Appointment to retrieve the patient's next scheduled visit. Read back the date, time, department, and location. Offer to send details via SMS using Send_SMS.
-Schedule a new appointment — Collect department preference and preferred date/time. Confirm availability from the slots below. Book and confirm, then offer SMS confirmation.
-Cancel or reschedule — Confirm identity first. Inform the patient of the 24-hour cancellation policy ($25 no-show fee if less than 24 hours notice). Confirm cancellation and offer to rebook.
-DEPARTMENTS, DOCTORS & AVAILABLE SLOTS
-
-Department	Provider	Available Days & Times
-Cardiology	Dr. Elena Torres	Mon: 9 AM, 11 AM, 2 PM / Wed: 10 AM, 3 PM / Fri: 8 AM, 1 PM
-Orthopedics	Dr. James Patel	Tue: 9 AM, 12 PM / Thu: 10 AM, 2 PM, 4 PM
-Pediatrics	Dr. Sofia Nguyen	Mon: 8 AM, 10 AM, 3 PM / Wed: 9 AM, 11 AM / Fri: 1 PM, 3 PM
-OB/GYN	Dr. Rachel Kim	Tue: 8 AM, 10 AM / Thu: 9 AM, 1 PM, 3 PM
-General Medicine	Dr. Michael Brooks	Mon–Fri: 8 AM, 9 AM, 10 AM, 11 AM, 2 PM, 3 PM
-Neurology	Dr. Alan Carter	Wed: 9 AM, 11 AM / Fri: 10 AM, 2 PM
-Dermatology	Dr. Lisa Monroe	Tue: 9 AM, 11 AM, 2 PM / Thu: 8 AM, 12 PM
-Psychiatry	Dr. David Osei	Mon: 10 AM, 1 PM / Wed: 9 AM, 3 PM / Fri: 11 AM
-APPOINTMENT TYPES
-
-Type	Duration	Notes
-New Patient Visit	60 min	Requires insurance info and photo ID
-Follow-up Visit	30 min	Must have existing patient record
-Annual Physical	45 min	Recommended once per year
-Specialist Consultation	45 min	May require referral depending on insurance
-Telehealth Visit	20–30 min	Mon–Fri only
-Urgent Care	Walk-in	No appointment needed
-BOOKING REQUIREMENTS
-
-To schedule an appointment the agent needs: Full name, date of birth, phone number on file, insurance provider and member ID, reason for visit, preferred department or doctor, and preferred date and time.
-
-INSURANCE ACCEPTED
-
-BlueCross BlueShield, Aetna, UnitedHealthcare, Cigna, Humana, Medicare, Medicaid, Self-Pay (payment plans available).
-
-FREQUENTLY ASKED QUESTIONS
-
-Arrival: Patients should arrive 15 minutes early to complete paperwork.
-
-Cancellations: Cancel or reschedule at least 24 hours in advance. Late cancellations incur a $25 no-show fee.
-
-Referrals: Some insurance plans require a referral for specialists. Recommend the patient check with their provider.
-
-What to bring: Photo ID, insurance card, list of current medications, and any relevant medical records.
-
-Parking: Free parking in Lot A and Lot B. Valet at the main entrance for $5.
-
-EMERGENCY & ESCALATION
-
-Emergency: Call 911 or visit the ER (open 24/7)
-Nurse Hotline: (217) 555-0199 — available 24/7
-Poison Control: 1-800-222-1222
-Mental Health Crisis Line: (217) 555-0150
-If caller requests a human agent at any time: trigger Agent_Handover immediately, no questions asked.
-OPENING GREETING (replace your current one)
-
-Thank you for calling Greenfield Medical Center. I'm your virtual care assistant — I can look up your upcoming appointments, help you schedule or reschedule a visit, or connect you with our care team. To get started, I'll pull up your record using the number you're calling from. Can you please confirm your date of birth for me?
-The reason this is better: it sets expectations upfront (what the bot can do), immediately moves into the verification step without a round-trip, and keeps the call shorter. The caller knows right away this is a capable bot, not just a phone tree.
-
-BOT INSTRUCTIONS (replace your current instructions block)
-
-## Identity
-You are a professional, friendly virtual care assistant for Greenfield Medical Center. You handle appointment scheduling, lookups, and cancellations autonomously over the phone. You are empathetic, clear, and efficient. You never provide medical advice.
-
-## Call Flow
-
-### Step 1 — Identify the Caller
-The caller's inbound phone number is automatically available as {{ PatientNumber }}.
-- Run Lookup_Patient using {{ PatientNumber }} immediately when the call begins.
-- Do not ask the caller for their phone number.
-
-### Step 2 — Verify Identity
-- Ask the caller to confirm their date of birth before reading back any personal or appointment information.
-- If DOB matches the record: proceed.
-- If DOB does not match after two attempts: apologize, do not read any information, and offer to transfer to the front desk.
-- If no record is found for the phone number: inform the caller, and offer to transfer them to a care coordinator.
-
-### Step 3 — Determine Intent
-After verifying identity, greet the caller by first name and ask how you can help. Common intents:
-- Check upcoming appointment
-- Schedule a new appointment
-- Cancel or reschedule an appointment
-- General question (use knowledge base)
-- Request to speak to someone (trigger Agent_Handover immediately)
-
-### Step 4 — Execute Tasks
-
-**Checking an appointment:**
-- Run Lookup_Appointment to retrieve the patient's next scheduled visit.
-- Read back: date, time, department, provider, and location.
-- Offer to send the details via SMS: "Would you like me to text those details to the number we have on file?"
-- If yes, run Send_SMS.
-
-**Scheduling an appointment:**
-- Ask for preferred department or doctor, preferred date, and preferred time.
-- Confirm availability using the slot schedule in the knowledge base.
-- Confirm all details back to the caller before booking.
-- After booking, offer to send an SMS confirmation via Send_SMS.
-
-**Canceling or rescheduling:**
-- Confirm the appointment details before canceling.
-- Remind the caller of the 24-hour cancellation policy and the $25 no-show fee for late cancellations.
-- Confirm cancellation. Offer to rebook immediately.
-- Offer SMS confirmation of cancellation via Send_SMS.
-
-### Step 5 — Wrap Up
-- Summarize what was done: "I've confirmed your appointment with Dr. Torres on Wednesday at 10 AM. A text confirmation has been sent to your number on file."
-- Ask if there is anything else you can help with before ending the call.
-- Close warmly: "Thank you for calling Greenfield Medical Center. Take care."
-
-## Guardrails
-- Do not provide medical advice, diagnoses, or treatment recommendations under any circumstances.
-- Do not read back any patient information before DOB is verified.
-- If the caller asks anything outside of scheduling, appointments, or general facility information, politely redirect or offer Agent_Handover.
-- If at any point the caller asks to speak to a person, trigger Agent_Handover immediately without asking clarifying questions.
-- Keep responses concise and spoken-word friendly — this is a voice call, not a chat interface. Avoid bullet points or lists in spoken responses.
-A few things worth calling out on the instructions rewrite. The original had the DOB and name lookup logic a bit tangled -- the new version makes the flow linear and unambiguous so the bot doesn't ask for things it already has. The guardrail about Agent_Handover being immediate is important for the demo because clients always ask "what if someone wants a human" and you want that to be a zero-friction moment. The spoken-word formatting note at the bottom is also key for Webex CC -- the TTS engine reads bullet points awkwardly, so keeping responses as natural sentences makes the demo audio sound much cleaner.
-
-since I hosted this here: https://krich5.github.io/Healthcare_Demo/
-
-can I use this site or to update the patient record and pull via an API?
-
-Mar 22
-Yes, absolutely. Since it's hosted on GitHub Pages, your MockAPI is the backend — the site is just static HTML making fetch calls directly to https://689f84f46e38a02c58168326.mockapi.io/HealthcareDEMO.
-
-Here's exactly how it all connects:
-
-What's already working
-
-Your CRM page GETs from MockAPI to look up patients by phone
-It PUTs back to MockAPI when you schedule an appointment
-Your Webex AI bot actions (Lookup_Patient, Lookup_Appointment) are hitting the same MockAPI endpoint
-So the CRM and the bot are already reading and writing the same data. If you book an appointment in the CRM, the bot will see it on the next call. If the bot were to write back (once you wire that up), the CRM would reflect it instantly on next load.
-
-The one gap right now
-
-Your bot's Lookup_Appointment and Lookup_Patient actions are configured as GET calls to MockAPI. But your Schedule_Appointment action (if you add it) would need to be a PUT to https://689f84f46e38a02c58168326.mockapi.io/HealthcareDEMO/{id} -- same as what the CRM already does. The tricky part is that MockAPI requires the record id to PUT, so the bot flow needs to store the id returned from Lookup_Patient and pass it into the scheduling action.
-
-Practical demo flow this enables
-
-Pull up your CRM at https://krich5.github.io/Healthcare_Demo/
-Search a patient, show their record on screen
-On a separate device, call in through Webex CC -- the bot looks up the same patient
-Bot reads back their appointment or books a new one
-Refresh the CRM and the new appointment shows up live
-That's a really compelling side-by-side demo -- screen on the left showing the EHR, phone call happening in real time, data updating live.
-
-One thing to be aware of
-
-MockAPI free tier has a rate limit and the data is publicly readable by anyone with the endpoint URL. That's fine for a demo, but just don't put real patient data in there. Keep it all fictional names and fake DOBs like you have now.
-
-Want me to write out the exact JSON structure and API action configs for a Schedule_Appointment bot action so you can add it in Webex CC alongside your existing Lookup_Patient and Lookup_Appointment actions?
-
-I want to do another thing too, I want to be able to post back to the MOCK API the transcription and SessionID so there is record of it in the CRM... so can we add that in?
-
-Mar 22
-Great idea -- that closes the loop perfectly. The CRM becomes a full call log, not just a patient record viewer.
-
-Here's the plan:
-
-MockAPI needs a second resource endpoint to store call records separately from patient records. You'll want to create a new resource at:
-
-https://689f84f46e38a02c58168326.mockapi.io/CallLogs
-Go do this first in MockAPI:
-
-Log into mockapi.io and open your project
-Click New Resource and name it CallLogs
-Set the schema fields to:
-id          (auto)
-sessionId   (string)
-patientId   (string)
-patientName (string)
-phone       (string)
-transcript  (string)
-summary     (string)
-intent      (string)
-outcome     (string)
-agentHandoff (boolean)
-timestamp   (string)
-Once you do that, come back and I'll:
-
-Update the CRM to add a Call Logs tab in the sidebar that pulls and displays all call records with transcripts expandable per row
-Write the Webex bot action config for Post_CallLog -- the JSON body, endpoint, and where in your bot instructions to trigger it (end of call, before hangup)
-Wire the patient detail view so when you open a patient record it shows their call history pulled by patientId
-Want to go set that MockAPI resource up and ping me back? Should take about 2 minutes and then I can build everything out in one shot.
-
-1774227637929_image.png
-MockAPI s setup
-
-Mar 22
-Perfect, schema is exactly right. Now let me update the CRM to add the Call Logs functionality and give you the Webex bot action config.
-
-
-Ran a command, created a file
-Ran a command, created a file
-Now let me write the Webex bot action config:
-
-
-Created a file, read a file
-Created a file, read a file
-Here's what you've got now.
-
-CRM updates:
-
-The sidebar has a new "Call Logs" section under "AI Call Center" with a live badge counter that loads on page open and shows how many call records exist in MockAPI. The Call Logs view has four stat cards (Total Calls, Agent Handoffs, Appointments Set, Today) and a full session list where each row expands to show the full transcript, session ID, intent, outcome, and handoff status. Handoff calls get an amber left border so they stand out instantly.
-
-On the patient detail view there's now a "Call History" tab that filters the CallLogs endpoint by patientId -- so when you open a specific patient you see only their call sessions.
-
-Bot action config doc:
-
-The markdown file has everything you need to set up Post_CallLog in Webex CC -- the endpoint, headers, full JSON body template, a variable mapping table explaining exactly where each field comes from, and two real example payloads so you can test it immediately.
-
-The one thing to wire up on your Webex side:
-
-After Lookup_Patient runs successfully, store the returned id as Custom.patientId -- that's what ties the call log back to the patient record in the CRM. Everything else flows from there. The action config doc has the exact instructions for this in the variable mapping table.
-
-Once you push the updated HTML to GitHub Pages and add Post_CallLog in Webex CC, every call will automatically show up in the CRM with the full transcript. That's a genuinely impressive demo moment -- make a call, hang up, refresh the CRM, and the record is sitting there.
-
-Healthcare crm
-Code · HTML 
-Post calllog actionconfig
-Document · MD 
-can we some how make another page on this project that I can "mimic" a SMS from a cell phone... thinking vs sending in connect I can do like a webhook, or an API post... even if its a MOCK API to "post" like its an SMS and ill pass from Connect like I would for SMS but do it for an API or webhook
-
-Mar 22
-Great idea. A separate "SMS Simulator" page that POSTs to a MockAPI endpoint, mimicking what Webex Connect would send via webhook. That way you can demo the SMS confirmation flow without needing a live number.
-
-First, go set up one more resource in MockAPI:
-
-Before you answer those -- go add this resource in MockAPI real quick, then come back:
-
-New resource name: SMSMessages
-
-Schema fields:
-
-id           (auto)
-sessionId    (string)
-patientId    (string)
-patientName  (string)
-phone        (string)
-direction    (string)   ← "outbound" or "inbound"
-message      (string)
-status       (string)   ← "sent", "delivered", "read", "failed"
-timestamp    (string)
-channel      (string)   ← "sms" or "webex-connect"
-Then answer the two questions above and I'll build both the simulator page and wire it into the CRM so the patient detail view shows SMS history alongside call logs.
-
-Q: What should the SMS simulator page look like?
-A: Looks like an iPhone iMessage thread
-
-Q: What should the simulator be able to send?
-A: simulator will just listen from Webex Connect
-
-Mar 22
-So the simulator page is purely a receiver -- it polls the SMSMessages MockAPI endpoint and renders whatever Webex Connect POSTs there, displayed as an iPhone iMessage thread. Clean and simple, no send UI needed.
-
-Here's the full flow:
-
-Webex Connect fires a webhook/HTTP action to POST to https://689f84f46e38a02c58168326.mockapi.io/SMSMessages
-The simulator page polls that endpoint every few seconds
-New messages pop into the iMessage thread in real time
-Let me build it:
-
-
-Viewed a file, created a file
-Viewed a file, created a file
-Now let me write the Webex Connect HTTP action config:
-
-
-Created a file, read a file
-Created a file, read a file
-Here's what you've got.
-
-The simulator page (sms-simulator.html):
-
-Drop this in your GitHub repo alongside index.html. It polls SMSMessages every 3 seconds and renders whatever Webex Connect POSTs there as an iPhone iMessage thread -- Dynamic Island, status bar, blue outbound bubbles with delivery ticks, the whole thing. The left panel shows connection status, a thread selector that auto-groups by phone number (so if you have multiple patients getting SMS it separates them into selectable threads), and the exact payload shape and endpoint your Connect flow needs to POST to.
-
-The demo flow:
-
-Pull up sms-simulator.html on a screen
-Trigger an appointment confirmation from the AI bot in Webex CC
-Connect fires Send_SMS to the patient's real number AND fires the HTTP log node to MockAPI
-Within 3 seconds the iMessage thread lights up with the confirmation message
-Audience sees the exact message the patient received, on what looks like a real iPhone
-The config doc has the exact HTTP node body for Connect, including a ready-to-use SMS confirmation template with all the appointment variables mapped in.
-
-One thing to note -- set direction: "inbound" if you ever want to simulate a patient texting back. The simulator handles both directions, inbound renders as gray left-side bubbles and outbound as blue right-side, exactly like iMessage.
-
-Sms simulator
-Code · HTML 
-Send sms log connectconfig
-Document · MD 
-
-
-
-
-
-Claude is AI and can make mistakes. Please double-check responses.
-Healthcare crm · HTML
-Copy
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -559,7 +38,7 @@ Copy
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;display:flex;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(59,130,246,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,.018) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0;}
- 
+
 /* ── SIDEBAR ── */
 .sidebar{width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;}
 .sb-brand{padding:16px 16px 13px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
@@ -579,7 +58,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .sb-avatar{width:28px;height:28px;background:var(--bg4);border:1px solid var(--border2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:600;color:var(--blue);}
 .sb-uname{font-size:12px;font-weight:600;color:var(--text);}
 .sb-urole{font-family:var(--mono);font-size:9.5px;color:var(--text-dim);letter-spacing:.5px;}
- 
+
 /* ── MAIN ── */
 .main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;z-index:1;}
 .topbar{height:48px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 26px;position:sticky;top:0;z-index:50;}
@@ -590,7 +69,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .tb-badge{display:flex;align-items:center;gap:5px;background:var(--teal-dim);border:1px solid rgba(15,184,160,.25);padding:4px 10px;border-radius:3px;font-family:var(--mono);font-size:9.5px;font-weight:600;color:var(--teal);letter-spacing:1px;text-transform:uppercase;}
 .tb-dot{width:5px;height:5px;background:var(--teal);border-radius:50%;animation:tblink 2s ease infinite;}
 @keyframes tblink{0%,100%{opacity:1;}50%{opacity:.3;}}
- 
+
 /* ── CONTENT ── */
 .content{padding:24px 28px;flex:1;animation:cfade .25s ease;}
 @keyframes cfade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
@@ -600,14 +79,14 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .view-pretitle{font-family:var(--mono);font-size:9px;font-weight:600;color:var(--text-dim);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:4px;}
 .view-title{font-size:21px;font-weight:700;letter-spacing:-.3px;}
 .view-desc{font-size:13px;color:var(--text-muted);margin-top:3px;}
- 
+
 /* ── CARDS ── */
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
 .card-hdr{padding:10px 16px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
 .card-title{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--text-muted);display:flex;align-items:center;gap:7px;}
 .card-title span{color:var(--blue);}
 .card-body{padding:18px;}
- 
+
 /* ── SEARCH FORM ── */
 .search-grid{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:12px;align-items:end;}
 .fg{display:flex;flex-direction:column;gap:5px;}
@@ -615,7 +94,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .finput{background:var(--bg);border:1px solid var(--border2);border-radius:var(--r);padding:9px 12px;font-family:var(--mono);font-size:13px;color:var(--text);outline:none;transition:all .14s;letter-spacing:.3px;width:100%;}
 .finput::placeholder{color:var(--text-dim);font-size:11.5px;}
 .finput:focus{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue-dim);background:var(--bg3);}
- 
+
 /* ── BUTTONS ── */
 .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--r);font-family:var(--sans);font-size:12.5px;font-weight:600;cursor:pointer;border:none;transition:all .14s;white-space:nowrap;}
 .btn-primary{background:var(--blue);color:#fff;}
@@ -627,14 +106,14 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .btn-sm{padding:6px 12px;font-size:11.5px;}
 .btn-purple{background:var(--purple);color:#fff;}
 .btn-purple:hover{background:#c4b5fd;}
- 
+
 /* ── ALERTS ── */
 .alert{display:flex;align-items:center;gap:9px;padding:9px 14px;border-radius:var(--r);font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.5px;margin-bottom:12px;}
 .alert-ok{background:var(--grn-dim);border:1px solid rgba(34,197,94,.22);color:var(--green);}
 .alert-err{background:var(--red-dim);border:1px solid rgba(240,82,82,.22);color:var(--red);}
 .alert-warn{background:var(--amb-dim);border:1px solid rgba(245,158,11,.22);color:var(--amber);}
 .alert-info{background:var(--blue-dim);border:1px solid rgba(59,130,246,.22);color:var(--blue);}
- 
+
 /* ── PATIENT HEADER CARD ── */
 .pt-header{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;margin-bottom:16px;}
 .pt-header-top{background:linear-gradient(135deg,#0b1626 0%,#071020 100%);padding:18px 20px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--border);}
@@ -651,14 +130,14 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .chip-amber{background:var(--amb-dim);color:var(--amber);border:1px solid rgba(245,158,11,.2);}
 .chip-purple{background:var(--pur-dim);color:var(--purple);border:1px solid rgba(167,139,250,.2);}
 .chip-red{background:var(--red-dim);color:var(--red);border:1px solid rgba(240,82,82,.2);}
- 
+
 /* ── DEMO STRIP ── */
 .demo-strip{display:grid;grid-template-columns:repeat(6,1fr);border-top:1px solid var(--border);}
 .demo-cell{padding:12px 16px;border-right:1px solid var(--border);}
 .demo-cell:last-child{border-right:none;}
 .demo-lbl{font-family:var(--mono);font-size:8.5px;font-weight:600;color:var(--text-dim);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;}
 .demo-val{font-family:var(--mono);font-size:12.5px;color:var(--text);font-weight:500;}
- 
+
 /* ── APPOINTMENTS ── */
 .appt-list{display:flex;flex-direction:column;gap:8px;}
 .appt-card{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);transition:border-color .14s;}
@@ -674,7 +153,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .appt-status{font-family:var(--mono);font-size:9px;font-weight:600;padding:3px 7px;border-radius:3px;letter-spacing:.8px;text-transform:uppercase;}
 .status-sched{background:var(--grn-dim);color:var(--green);border:1px solid rgba(34,197,94,.2);}
 .status-past{background:var(--bg4);color:var(--text-dim);border:1px solid var(--border);}
- 
+
 /* ── TABS ── */
 .tabs{display:flex;border-bottom:1px solid var(--border);padding:0 16px;overflow-x:auto;}
 .tab{padding:10px 14px;font-size:12px;font-weight:500;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .14s;white-space:nowrap;}
@@ -682,14 +161,14 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .tab.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:600;}
 .tab-pane{display:none;padding:18px;}
 .tab-pane.active{display:block;}
- 
+
 /* ── DATA TABLE ── */
 .dtbl{width:100%;border-collapse:collapse;}
 .dtbl th{text-align:left;font-family:var(--mono);font-size:8.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);padding:9px 12px;border-bottom:1px solid var(--border);background:var(--bg3);}
 .dtbl td{padding:10px 12px;font-size:12.5px;border-bottom:1px solid var(--border);vertical-align:middle;}
 .dtbl tr:last-child td{border-bottom:none;}
 .dtbl tr:hover td{background:var(--bg3);cursor:pointer;}
- 
+
 /* ── STATS ── */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
 .stat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;}
@@ -700,13 +179,13 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .stat-val.amber{color:var(--amber);}
 .stat-val.purple{color:var(--purple);}
 .stat-sub{font-size:11px;color:var(--text-dim);margin-top:3px;}
- 
+
 /* ── INFO GRID ── */
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .info-cell{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:10px 12px;}
 .info-lbl{font-family:var(--mono);font-size:8.5px;font-weight:600;color:var(--text-dim);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;}
 .info-val{font-family:var(--mono);font-size:12.5px;color:var(--text);}
- 
+
 /* ── CALL LOG SPECIFIC ── */
 .call-log-row{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden;transition:border-color .14s;}
 .call-log-row:hover{border-color:var(--border2);}
@@ -732,7 +211,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .cmc-lbl{font-family:var(--mono);font-size:8.5px;color:var(--text-dim);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px;}
 .cmc-val{font-family:var(--mono);font-size:12px;color:var(--text);}
 .session-id{font-family:var(--mono);font-size:9.5px;color:var(--text-dim);letter-spacing:.5px;background:var(--bg4);border:1px solid var(--border);padding:4px 10px;border-radius:3px;display:inline-block;margin-bottom:12px;}
- 
+
 /* ── MODAL ── */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);display:none;align-items:center;justify-content:center;z-index:300;backdrop-filter:blur(5px);}
 .overlay.open{display:flex;}
@@ -752,13 +231,13 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .slot:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-dim);}
 .slot.selected{background:var(--blue);color:#fff;border-color:var(--blue);font-weight:600;}
 .slot.taken{opacity:.3;cursor:not-allowed;text-decoration:line-through;}
- 
+
 /* ── TOAST ── */
 .toast{position:fixed;bottom:22px;right:22px;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:10px 16px;border-radius:var(--r);font-size:13px;box-shadow:0 0 24px rgba(0,0,0,.5);transform:translateY(50px);opacity:0;transition:all .3s cubic-bezier(.34,1.4,.64,1);z-index:999;display:flex;align-items:center;gap:9px;max-width:380px;}
 .toast.show{transform:translateY(0);opacity:1;}
 .toast.tok{border-color:rgba(34,197,94,.3);color:var(--green);}
 .toast.terr{border-color:rgba(240,82,82,.3);color:var(--red);}
- 
+
 .empty{text-align:center;padding:36px 20px;color:var(--text-dim);font-family:var(--mono);font-size:11.5px;letter-spacing:.8px;}
 .ldots::after{content:'';animation:ld 1.2s steps(4,end) infinite;}
 @keyframes ld{0%,20%{content:'';}40%{content:'.';}60%{content:'..';}80%,100%{content:'...'}}
@@ -769,7 +248,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 </style>
 </head>
 <body>
- 
+
 <!-- SIDEBAR -->
 <nav class="sidebar">
   <div class="sb-brand">
@@ -820,7 +299,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     </div>
   </div>
 </nav>
- 
+
 <!-- MAIN -->
 <div class="main">
   <div class="topbar">
@@ -834,9 +313,9 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       <div class="tb-badge"><div class="tb-dot"></div>System Online</div>
     </div>
   </div>
- 
+
   <div class="content">
- 
+
     <!-- ══ VIEW: SEARCH ══ -->
     <div class="view active" id="view-search">
       <div class="view-header">
@@ -877,7 +356,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       </div>
       <div id="rzone" style="margin-top:16px;max-width:860px;"></div>
     </div>
- 
+
     <!-- ══ VIEW: PATIENT DETAIL ══ -->
     <div class="view" id="view-patient">
       <div class="back-link" onclick="gv('search',document.getElementById('nav-search'))">← Back to Patient Lookup</div>
@@ -902,7 +381,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
         <div class="tab-pane" id="tp-notes"><div class="empty">No clinical notes on file.</div></div>
       </div>
     </div>
- 
+
     <!-- ══ VIEW: ALL PATIENTS ══ -->
     <div class="view" id="view-all">
       <div class="view-header">
@@ -920,7 +399,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
         <div id="all-body"><div class="empty"><span class="ldots">Loading registry</span></div></div>
       </div>
     </div>
- 
+
     <!-- ══ VIEW: APPOINTMENTS ══ -->
     <div class="view" id="view-appts">
       <div class="view-header">
@@ -932,7 +411,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
         <div id="appts-body"><div class="empty"><span class="ldots">Loading schedule</span></div></div>
       </div>
     </div>
- 
+
     <!-- ══ VIEW: CALL LOGS ══ -->
     <div class="view" id="view-calllogs">
       <div class="view-header">
@@ -956,10 +435,10 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
         </div>
       </div>
     </div>
- 
+
   </div><!-- /content -->
 </div><!-- /main -->
- 
+
 <!-- SCHEDULE MODAL -->
 <div class="overlay" id="sched-modal">
   <div class="modal">
@@ -1015,9 +494,9 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     </div>
   </div>
 </div>
- 
+
 <div class="toast" id="toast"></div>
- 
+
 <script>
 const API      = 'https://689f84f46e38a02c58168326.mockapi.io/HealthcareDEMO';
 const LOGS_API = 'https://689f84f46e38a02c58168326.mockapi.io/CallLogs';
@@ -1033,7 +512,7 @@ const PAST_APPTS = [
   { dept:'Cardiology',   date:'2024-08-03', time:'02:00 PM', provider:'Dr. Sarah Mitchell', status:'past' },
 ];
 let curPt = null, allPts = [], slot = '', callLogsCache = [];
- 
+
 // DATE
 (function tick(){
   const n = new Date();
@@ -1041,7 +520,7 @@ let curPt = null, allPts = [], slot = '', callLogsCache = [];
   if(el) el.textContent = n.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
   setTimeout(tick, 60000);
 })();
- 
+
 // NAV
 const PAGE_LABELS = { search:'Patient Lookup', patient:'Patient Record', all:'Patient Registry', appts:'Appointments', calllogs:'Call Logs' };
 function gv(name, el) {
@@ -1063,13 +542,13 @@ function stab(el, pid) {
   // lazy load call history tab for patient
   if(pid === 'tp-calls' && curPt) loadPatientCallHistory(curPt.id);
 }
- 
+
 // DEMO
 function demoFill() {
   document.getElementById('inp-phone').value = '3855950504';
   document.getElementById('inp-dob').value = '05/26/1988';
 }
- 
+
 // HELPERS
 function normD(s) { return (s||'').replace(/[\-\/]/g,'/').split('/').map(p => p.padStart(2,'0')).join('/'); }
 function inits(name) { return (name||'').split(' ').map(n=>n[0]||'').join('').substring(0,2).toUpperCase(); }
@@ -1093,7 +572,7 @@ function intentColor(intent) {
   const k = Object.keys(map).find(k => (intent||'').toLowerCase().includes(k));
   return map[k] || 'chip-gray';
 }
- 
+
 // LOOKUP
 async function doLookup() {
   const phone = document.getElementById('inp-phone').value.replace(/\D/g,'').trim();
@@ -1124,7 +603,7 @@ async function doLookup() {
     zone.innerHTML = `<div class="alert alert-err">Connection error: ${e.message}</div>`;
   }
 }
- 
+
 function pendingCard(p) {
   return `<div class="pt-header"><div class="pt-header-top" style="opacity:.6;">
     <div class="pt-identity"><div class="pt-avatar">${inits(p.PatientName)}</div>
@@ -1133,7 +612,7 @@ function pendingCard(p) {
     <div class="pt-chips"><span class="chip chip-amber">⚠ Identity Unverified</span></div>
     </div></div></div></div>`;
 }
- 
+
 function verifiedCard(p) {
   const a = p.appointment || {};
   const ds = a.date ? fmtD(a.date) : null;
@@ -1170,7 +649,7 @@ function verifiedCard(p) {
     </div>`}
   </div>`;
 }
- 
+
 function clearSearch() {
   document.getElementById('inp-phone').value = '';
   document.getElementById('inp-dob').value = '';
@@ -1178,7 +657,7 @@ function clearSearch() {
   document.getElementById('rzone').innerHTML = '';
   curPt = null;
 }
- 
+
 // FULL DETAIL VIEW
 function openDetail() {
   if(!curPt) return;
@@ -1186,7 +665,7 @@ function openDetail() {
   gv('patient', null);
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 }
- 
+
 function renderDetail(p) {
   const a = p.appointment || {};
   const age = calcAge(p.DateOfBirth);
@@ -1207,7 +686,7 @@ function renderDetail(p) {
       <button class="btn btn-ghost btn-sm" onclick="window.print()">Print Summary</button>
       <button class="btn btn-primary btn-sm" onclick="openModal()">+ Schedule Appointment</button>
     </div>`;
- 
+
   document.getElementById('pt-demo-strip').innerHTML = `
     <div class="demo-cell"><div class="demo-lbl">MRN</div><div class="demo-val">MRN-${String(p.id).padStart(5,'0')}</div></div>
     <div class="demo-cell"><div class="demo-lbl">Date of Birth</div><div class="demo-val">${p.DateOfBirth}</div></div>
@@ -1215,7 +694,7 @@ function renderDetail(p) {
     <div class="demo-cell"><div class="demo-lbl">Phone</div><div class="demo-val">${p.PatientNumber}</div></div>
     <div class="demo-cell"><div class="demo-lbl">Primary Dept</div><div class="demo-val">${a.department || '—'}</div></div>
     <div class="demo-cell"><div class="demo-lbl">Patient Status</div><div class="demo-val" style="color:var(--green);">Active</div></div>`;
- 
+
   // Appointments tab
   const apEl = document.getElementById('tp-appts');
   let apptHtml = `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
@@ -1249,7 +728,7 @@ function renderDetail(p) {
   });
   apptHtml += `</div>`;
   apEl.innerHTML = apptHtml;
- 
+
   // Demographics tab
   document.getElementById('tp-info').innerHTML = `
     <div class="info-grid">
@@ -1262,11 +741,11 @@ function renderDetail(p) {
       <div class="info-cell"><div class="info-lbl">Primary Department</div><div class="info-val">${a.department||'Unassigned'}</div></div>
       <div class="info-cell"><div class="info-lbl">Care Location</div><div class="info-val">${a.location||'—'}</div></div>
     </div>`;
- 
+
   // Call history tab gets loaded lazily when clicked
   document.getElementById('tp-calls').innerHTML = `<div class="empty"><span class="ldots">Loading call history</span></div>`;
 }
- 
+
 // PATIENT CALL HISTORY (filtered by patientId)
 async function loadPatientCallHistory(patientId) {
   const el = document.getElementById('tp-calls');
@@ -1285,7 +764,7 @@ async function loadPatientCallHistory(patientId) {
     el.innerHTML = `<div class="alert alert-err" style="margin:4px 0;">Failed to load call history: ${e.message}</div>`;
   }
 }
- 
+
 // ALL PATIENTS
 async function loadAll() {
   const b = document.getElementById('all-body');
@@ -1324,7 +803,7 @@ async function loadAll() {
     b.innerHTML = `<div class="alert alert-err" style="margin:16px;">Error loading registry: ${e.message}</div>`;
   }
 }
- 
+
 async function loadAppts() {
   const b = document.getElementById('appts-body');
   try {
@@ -1356,7 +835,7 @@ async function loadAppts() {
     b.innerHTML = `<div class="alert alert-err" style="margin:16px;">${e.message}</div>`;
   }
 }
- 
+
 function qopen(id) {
   const p = allPts.find(x => String(x.id) === String(id));
   if(!p) return;
@@ -1365,7 +844,7 @@ function qopen(id) {
   gv('patient', null);
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 }
- 
+
 // ── CALL LOGS ──
 async function loadCallLogs(forceRefresh) {
   const b = document.getElementById('call-logs-body');
@@ -1386,7 +865,7 @@ async function loadCallLogs(forceRefresh) {
     b.innerHTML = `<div class="alert alert-err">Failed to load call logs: ${e.message}</div>`;
   }
 }
- 
+
 function renderCallLogStats(logs) {
   const handoffs = logs.filter(l => l.agentHandoff === true || l.agentHandoff === 'true').length;
   const appts    = logs.filter(l => (l.outcome||'').toLowerCase().includes('schedul') || (l.intent||'').toLowerCase().includes('schedul')).length;
@@ -1397,7 +876,7 @@ function renderCallLogStats(logs) {
   document.getElementById('cl-s3').textContent = appts;
   document.getElementById('cl-s4').textContent = todayCt;
 }
- 
+
 function renderCallLogs(logs) {
   const b = document.getElementById('call-logs-body');
   if(!logs.length) {
@@ -1406,7 +885,7 @@ function renderCallLogs(logs) {
   }
   b.innerHTML = logs.map(l => renderCallRow(l)).join('');
 }
- 
+
 function renderCallRow(l) {
   const isHandoff = l.agentHandoff === true || l.agentHandoff === 'true';
   const ic = isHandoff ? 'clh-icon-handoff' : 'clh-icon-ai';
@@ -1443,7 +922,7 @@ function renderCallRow(l) {
     </div>
   </div>`;
 }
- 
+
 function toggleLog(id) {
   const body = document.getElementById('clb-' + id);
   const arrow = body.previousElementSibling.querySelector('.clh-expand');
@@ -1451,16 +930,16 @@ function toggleLog(id) {
   body.classList.toggle('open', !isOpen);
   if(arrow) arrow.textContent = isOpen ? '▾' : '▴';
 }
- 
+
 function updateCallLogBadge(count) {
   const el = document.getElementById('nav-badge-count');
   if(el) el.textContent = count;
 }
- 
+
 function escHtml(s) {
   return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
- 
+
 // MODAL
 function openModal() {
   const d = new Date(); d.setDate(d.getDate()+3);
@@ -1476,7 +955,7 @@ function pslot(el) {
   el.classList.add('selected');
   slot = el.textContent.trim();
 }
- 
+
 async function bookAppt() {
   if(!slot) { showToast('Please select a time slot.','err'); return; }
   if(!curPt) { showToast('No patient selected.','err'); return; }
@@ -1506,14 +985,14 @@ async function bookAppt() {
     showToast('Booking failed: ' + e.message,'err');
   }
 }
- 
+
 function showToast(msg, type='') {
   const el = document.getElementById('toast');
   el.textContent = msg;
   el.className = 'toast show' + (type==='ok'?' tok':type==='err'?' terr':'');
   setTimeout(() => { el.className = 'toast'; }, 4000);
 }
- 
+
 // Init badge on load
 fetch(LOGS_API).then(r=>r.json()).then(raw=>{
   const logs = Array.isArray(raw) ? raw : Object.values(raw);
@@ -1523,4 +1002,3 @@ fetch(LOGS_API).then(r=>r.json()).then(raw=>{
 </script>
 </body>
 </html>
- 
